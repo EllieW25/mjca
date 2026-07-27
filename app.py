@@ -1,15 +1,18 @@
 #Starts flask
 from flask import Flask
 from config import Config
-from database import create_database
 
 app = Flask(__name__)
 
 app.config.from_object(Config)
-create_database()
+
 
 @app.route('/')
 def home():
-    return "The school messenger is running."
+    return """
+    <h1>MJCA</h1>
+    <p> If you see this flask is working! :D </p>
+    """
+
 if __name__ == '__main__':
     app.run(debug=True)
