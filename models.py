@@ -53,7 +53,7 @@ class Message(db.Model):  # stores all created messages
         db.Boolean,
         default=False
     )
-    messages = db.relationship(
+    recipients = db.relationship(
         "MessageRecipient",
         back_populates="message",
     )
@@ -84,11 +84,11 @@ class MessageRecipient(db.Model):
     )
     message = db.relationship(
         "Message",
-        back_populates="recipient",
+        back_populates="recipients",
     )
     recipient = db.relationship(
         "Recipient",
-        back_populates="message",
+        back_populates="messages",
     )
 class Reply(db.Model):
     id = db.Column(
@@ -97,7 +97,7 @@ class Reply(db.Model):
     )
     message_recipient_id = db.Column(
         db.Integer,
-        db.ForeignKey('message.id'),
+        db.ForeignKey('message_recipient.id'),
         nullable=False
     )
     body = db.Column(
