@@ -1,5 +1,6 @@
 #Defines database tables
-from flask_sqlalchemy import SQLAlchemy #creating an sqlalchemy object
+from flask_sqlalchemy import SQLAlchemy #creating a sqlalchemy object
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -28,5 +29,86 @@ class Recipient(db.Model):  #class is stored in the database
         db.Boolean,
         default=True
     )
+    messages = db.relationship(   #this will connect a recipient to a message
+        "MessageRecipient",
+        back_populates="recipient",
+    )
     def __repr__(self):   #allows us to print the actual name instead of the address
         return f"<Recipient {self.name}>"
+
+class Message(db.Model):  # stores all created messages
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    body = db.Column(
+        db.Text,
+        nullable=False
+    )
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
+    archived = db.Column(
+        db.Boolean,
+        default=False
+    )
+    messages = db.relationship(
+        "MessageRecipient",
+        back_populates="message",
+    )
+    def __repr__(self):
+        return f"<Message {self.id}>"
+
+class MessageRecipient(db.Model):
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    message_id = db.Column(
+        db.Integer,
+        db.ForeignKey('message.id'),
+        nullable=False
+    )
+    recipient_id = db.Column(
+        db.Integer,
+        db.ForeignKey('recipient.id'),
+        nullable=False
+    )
+    sent = db.Column(
+        db.Boolean,
+        default=False
+    )
+    sent_at = db.Column(
+        db.DateTime,
+    )
+    message = db.relationship(
+        "Message",
+        back_populates="recipient",
+    )
+    recipient = db.relationship(
+        "Recipient",
+        back_populates="message",
+    )
+class Reply(db.Model):
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    message_recipient_id = db.Column(
+        db.Integer,
+        db.ForeignKey('message.id'),
+        nullable=False
+    )
+    body = db.Column(
+        db.Text,
+        nullable=False
+    )
+    received_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
+    archived = db.Column(
+        db.Boolean,
+        default=False
+    )
