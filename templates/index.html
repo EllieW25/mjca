@@ -7,18 +7,26 @@
 <body>
 <h1> Welcome to the MJCA notification station!</h1>
 
+<a href="/add">
+    <button>Add Recipient
+    </button>
+
+</a>
+
 <h2>Teachers</h2>
 
 <table>
-{% if teachers %}
-    {% for teacher in teachers %}
+
 
         <tr>
             <th>Name</th>
             <th>Department</th>
             <th>Status</th>
+            <th>Edit</th>
         </tr>
         <tr>
+            {% if teachers %}
+                {% for teacher in teachers %}
              <td>{{ teacher.name }}</td>
              <td>{{ teacher.department }}</td>
              <td>
@@ -28,6 +36,14 @@
                     Inactive
                  {% endif %}
              </td>
+            <td>
+                <a href="/edit/{{ teacher.id }}">
+                    <button>
+                        Edit
+                    </button>
+
+                </a>
+            </td>
         </tr>
 
     {% endfor %}
@@ -39,14 +55,16 @@
 
 <h2>Substitutes</h2>
 <table>
-{% if substitutes %}
-    {% for substitute in substitutes %}
+
       <tr>
           <th>Name</th>
           <th>Department</th>
           <th>Status</th>
+          <th>Edit</th>
       </tr>
       <tr>
+          {% if substitutes %}
+                {% for substitute in substitutes %}
           <td>{{ substitute.name }}</td>
           <td>{{ substitute.department }}</td>
           <td>
@@ -55,6 +73,13 @@
               {% else %}
                 Inactive
               {% endif %}
+          </td>
+          <td>
+                <a href="/edit/{{ substitute.id }}">
+                    <button>
+                        Edit
+                    </button>
+                </a>
           </td>
       </tr>
 

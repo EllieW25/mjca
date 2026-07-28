@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Recipient</title>
+</head>
+<body>
+
+<h1>Add Recipient</h1>
+<form method="POST">
+    <label>Name (first and last):</label>
+    <input type="text" name="name" required>
+
+    <br><br>
+
+    <label>Type:</label>
+    <select name="recipient_type">
+
+        <option value="Substitute">
+            Substitute
+        </option>
+        <option value="Teacher">
+            Teacher
+        </option>
+    </select>
+
+    <br><br>
+
+    <label>Department:</label>
+    <input type="text" name="department">
+
+    <br><br>
+
+    <label>Phone:</label>
+    <input type="text" name="phone" required>
+
+    <br><br>
+
+    <button type="Submit">
+        Save Recipient
+    </button>
+
+</form>
+
+</body>
+</html>
