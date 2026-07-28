@@ -1,6 +1,7 @@
 #Defines database tables
 from flask_sqlalchemy import SQLAlchemy #creating a sqlalchemy object
 from datetime import datetime
+from services.phone import normalize_phone, validate_phone
 
 db = SQLAlchemy()
 
@@ -13,11 +14,24 @@ class Recipient(db.Model):  #class is stored in the database
         db.String(100),
         nullable=False    #makes sure the field cannot be empty
     )
-    phone = db.Column(
+    _phone = db.Column(
+        "phone",
         db.String(20),
         nullable=False,
         unique=True
     )
+
+    @property
+    def phone(self):
+        return self._phone
+    @phone.setter
+    def phone(self, value):
+        cleaned = normalize_phone(value)
+
+        if not validate_phone(cleaned):
+            raise ValueError("Invalid phone number")
+        self._phone = cleaned
+
     recipient_type = db.Column(   #do not name it 'type' since that's an existing python function
         db.String(20),
         nullable=False

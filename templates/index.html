@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MJCA</title>
+</head>
+<body>
+<h1> Welcome to the MJCA notification station!</h1>
+
+<h2>Teachers</h2>
+
+<table>
+{% if teachers %}
+    {% for teacher in teachers %}
+
+        <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+             <td>{{ teacher.name }}</td>
+             <td>{{ teacher.department }}</td>
+             <td>
+                 {% if teacher.active %}
+                    Active
+                 {% else %}
+                    Inactive
+                 {% endif %}
+             </td>
+        </tr>
+
+    {% endfor %}
+{% else %}
+    <p>No teachers found.</p>
+{% endif %}
+
+</table>
+
+<h2>Substitutes</h2>
+<table>
+{% if substitutes %}
+    {% for substitute in substitutes %}
+      <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Status</th>
+      </tr>
+      <tr>
+          <td>{{ substitute.name }}</td>
+          <td>{{ substitute.department }}</td>
+          <td>
+              {% if substitute.active %}
+                Active
+              {% else %}
+                Inactive
+              {% endif %}
+          </td>
+      </tr>
+
+    {% endfor %}
+{% else %}
+    <p>No substitutes found.</p>
+{% endif %}
+
+</table>
+</body>
+</html>

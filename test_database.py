@@ -11,4 +11,14 @@ with app.app_context():
     db.session.add(teacher)
     db.session.commit()
 
+    substitute = Recipient(
+        name= "Joe kingston",
+        phone="356 898 3240",
+        recipient_type = "Substitute",
+        department = "Engineering",
+        active = False,
+    )
+    db.session.add(substitute)
+    db.session.commit()
+
     print("Teacher added")
