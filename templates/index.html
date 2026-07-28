@@ -12,13 +12,18 @@
     </button>
 
 </a>
+<br><br>
+<button type="button" id="teacher-toggle">
+     ▶ Teachers
+</button>
+<div id="teacher-list" style="display: none;">
 
-<h2>Teachers</h2>
 
 <table>
 
 
         <tr>
+            <th>Select</th>
             <th>Name</th>
             <th>Department</th>
             <th>Status</th>
@@ -27,6 +32,13 @@
         <tr>
             {% if teachers %}
                 {% for teacher in teachers %}
+            <td>
+                <input
+                    type="checkbox"
+                    class="recipient-checkbox"
+                    value="{{ teacher.id }}"
+                >
+            </td>
              <td>{{ teacher.name }}</td>
              <td>{{ teacher.department }}</td>
              <td>
@@ -52,11 +64,19 @@
 {% endif %}
 
 </table>
+</div>
 
-<h2>Substitutes</h2>
+<br><br>
+
+<button type="button" id="substitute-toggle">
+     ▶ Substitutes
+</button>
+<div id="substitute-list" style="display: none;">
+
 <table>
 
       <tr>
+          <th>Select</th>
           <th>Name</th>
           <th>Department</th>
           <th>Status</th>
@@ -65,6 +85,13 @@
       <tr>
           {% if substitutes %}
                 {% for substitute in substitutes %}
+            <td>
+                <input
+                    type="checkbox"
+                    class="recipient-checkbox"
+                    value="{{ substitute.id }}"
+                >
+            </td>
           <td>{{ substitute.name }}</td>
           <td>{{ substitute.department }}</td>
           <td>
@@ -87,7 +114,63 @@
 {% else %}
     <p>No substitutes found.</p>
 {% endif %}
-
 </table>
+
+</div>
+
+<br><br>
+
+<p>
+    Total Recipients Selected:
+    <span id="selected-count">0</span>
+</p>
+
+<script>
+    const checkboxes = document.querySelectorAll(".recipient-checkbox");
+    const selectedCount = document.getElementById("selected-count");
+
+    function updateSelectedCount() {
+
+    let count = 0;
+
+    for (const checkbox of checkboxes) {
+
+        if (checkbox.checked) {
+            count++;
+        }
+    }
+    selectedCount.textContent = count;
+    }
+    for (const checkbox of checkboxes) {
+    checkbox.addEventListener("change", updateSelectedCount);
+    }
+
+    const teacherButton = document.getElementById("teacher-toggle");
+    const teacherList = document.getElementById("teacher-list");
+
+    teacherButton.addEventListener("click", function () {
+
+        if (teacherList.style.display === "none") {
+            teacherList.style.display = "block";
+        } else {
+            teacherList.style.display = "none";
+        }
+
+    });
+</script>
+<script>
+    const substituteButton = document.getElementById("substitute-toggle");
+    const substituteList = document.getElementById("substitute-list");
+
+    substituteButton.addEventListener("click", function () {
+
+        if (substituteList.style.display === "none") {
+            substituteList.style.display = "block";
+        } else {
+            substituteList.style.display = "none";
+        }
+
+    });
+</script>
 </body>
 </html>
