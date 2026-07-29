@@ -18,7 +18,7 @@
 </button>
 <div id="teacher-list" style="display: none;">
 
-
+<form method="POST" action="/send">
 <table>
 
 
@@ -36,6 +36,7 @@
                 <input
                     type="checkbox"
                     class="recipient-checkbox"
+                    name="recipient_ids"
                     value="{{ teacher.id }}"
                 >
             </td>
@@ -89,6 +90,7 @@
                 <input
                     type="checkbox"
                     class="recipient-checkbox"
+                    name="recipient_ids"
                     value="{{ substitute.id }}"
                 >
             </td>
@@ -120,11 +122,28 @@
 
 <br><br>
 
-<p>
-    Total Recipients Selected:
-    <span id="selected-count">0</span>
-</p>
+    <p>
+        Total Recipients Selected:
+        <span id="selected-count">0</span>
+    </p>
 
+    <h2>Message:</h2>
+
+    <textarea
+        name="message"
+        rows="6"
+        cols="60"
+        placeholder="Type your message here..."
+        required>
+    </textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Send Message
+    </button>
+
+</form>
 <script>
     const checkboxes = document.querySelectorAll(".recipient-checkbox");
     const selectedCount = document.getElementById("selected-count");

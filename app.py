@@ -69,6 +69,24 @@ def edit_recipient(id):
         "edit_recipient.html",
         recipient=recipient
     )
+@app.route("/send", methods=["POST"])
+def send():
+
+    recipient_ids = request.form.getlist('recipient_ids')
+    message = request.form['message']
+
+    print(recipient_ids)
+    print(message)
+
+    if not recipient_ids:
+        print("No recipients selected.")
+        return redirect('/')
+
+    if not message.strip():
+        print("No message entered.")
+        return redirect('/')
+
+    return redirect("/")
 
 if __name__ == '__main__':
     app.run(debug=True)
