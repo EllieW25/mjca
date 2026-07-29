@@ -14,9 +14,46 @@
 {% for message in messages %}
     <h3>{{ message.created_at.strftime("%B %d, %Y   %I:%M %p") }}</h3>
     <p>{{ message.body }}</p>
+<button type="button" class="details-button">
+    ▶ Details
+</button>
+<div class="message-details" style="display: none;">
+    <h3>Recipients:</h3>
+    <ul>
+    {% for mr in message.recipients %}
+        <li>
+            {{ mr.recipient.name }}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
     <hr>
 {% else %}
     <p>No messages have been sent.</p>
 {% endfor %}
+
+<script>
+
+const detailButtons = document.querySelectorAll(".details-button");
+
+detailButtons.forEach(button => {
+
+    button.addEventListener("click", function() {
+
+        const details = this.nextElementSibling;
+
+        if (details.style.display === "none") {
+            details.style.display = "block";
+            this.textContent = "▼ Details";
+        } else {
+            details.style.display = "none";
+            this.textContent = "▶ Details";
+        }
+
+    });
+
+});
+
+</script>
 </body>
 </html>

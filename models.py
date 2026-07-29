@@ -72,6 +72,11 @@ class Message(db.Model):  # stores all created messages
         "MessageRecipient",
         back_populates="message",
     )
+    replies = db.relationship(
+        "Reply",
+        back_populates="message",
+        cascade = "all, delete-orphan",
+    )
     def __repr__(self):
         return f"<Message {self.id}>"
 
@@ -110,6 +115,11 @@ class Reply(db.Model):
         db.Integer,
         primary_key=True
     )
+    message_id = db.Column(
+        db.Integer,
+        db.ForeignKey('message.id'),
+        nullable=False
+    )
     message_recipient_id = db.Column(
         db.Integer,
         db.ForeignKey('message_recipient.id'),
@@ -122,6 +132,13 @@ class Reply(db.Model):
     received_at = db.Column(
         db.DateTime,
         default=lambda: datetime.now(ZoneInfo("America/Chicago"))
+    )
+    message = db.relationship(
+        "Message",
+        back_populates="replies",
+    )
+    recipient = db.relationship(
+        "Recipient",
     )
     archived = db.Column(
         db.Boolean,

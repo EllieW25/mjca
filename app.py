@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, redirect
 from config import Config
 from models import db, Recipient, Message, MessageRecipient
+from sms import send_sms
 
 app = Flask(__name__)
 
@@ -18,9 +19,11 @@ def home():
 
     teachers = Recipient.query.filter_by(
         recipient_type='Teacher',
+        active=True
     ).all()
     substitutes = Recipient.query.filter_by(
         recipient_type='Substitute',
+        active = True
     ).all()
 
 
@@ -94,13 +97,19 @@ def send():
     db.session.commit()
 
     recipients = Recipient.query.filter(
-        Recipient.id.in_(recipient_ids)).all()
+        Recipient.id.in_(recipient_ids)
+    ).all()
+
     for recipient in recipients:
-        message_recipient = MessageRecipient(
+       send_sms(
+           recipient.phone,
+           message
+       )
+       message_recipient = MessageRecipient(
             message_id=new_message.id,
-            recipient_id=recipient.id,
+            recipient_id=recipient.id
         )
-        db.session.add(message_recipient)
+       db.session.add(message_recipient)
 
     db.session.commit()
 
@@ -115,6 +124,18 @@ def history():
         'history.html',
         messages=messages
     )
-
+@app.route("/manage")
+def manage():
+    active_recipients = Recipient.query.filter_by(
+        active=True
+    ).all()
+    inactive_recipients = Recipient.query.filter_by(
+        active=False
+    ).all()
+    return render_template(
+        "manage.html",
+        active_recipients=active_recipients
+        ,inactive_recipients=inactive_recipients
+    )
 if __name__ == '__main__':
     app.run(debug=True)

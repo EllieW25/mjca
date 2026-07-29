@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Employees</title>
+</head>
+<body>
+<a href="/">
+    <button>Back</button>
+</a>
+<h1>Active Recipients</h1>
+<p>Active count: {{ active_recipients|length }}</p>
+<table>
+<tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Department</th>
+    <th>Edit</th>
+</tr>
+{% for recipient in active_recipients %}
+<tr>
+    <td>{{ recipient.name }}</td>
+    <td>{{ recipient.recipient_type }}</td>
+    <td>{{ recipient.department }}</td>
+    <td>
+        <a href="/edit/{{ recipient.id }}">
+            <button>Edit</button>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<h1>Inactive Recipients</h1>
+<p>Inactive count: {{ inactive_recipients|length }}</p>
+<table>
+<tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Department</th>
+    <th>Edit</th>
+</tr>
+{% for recipient in inactive_recipients %}
+<tr>
+    <td>{{ recipient.name }}</td>
+    <td>{{ recipient.recipient_type }}</td>
+    <td>{{ recipient.department }}</td>
+    <td>
+        <a href="/edit/{{ recipient.id }}">
+            <button>Edit</button>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>

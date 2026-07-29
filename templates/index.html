@@ -16,6 +16,10 @@
     <button>Message History</button>
 </a>
 
+<a href="/manage">
+    <button type="button">Manage Employees</button>
+</a>
+
 <br><br>
 <button type="button" id="teacher-toggle">
      ▶ Teachers
@@ -173,8 +177,10 @@
 
         if (teacherList.style.display === "none") {
             teacherList.style.display = "block";
+            teacherButton.textContent = "▼ Teachers";
         } else {
             teacherList.style.display = "none";
+            teacherButton.textContent = "▶ Teachers";
         }
 
     });
@@ -187,8 +193,10 @@
 
         if (substituteList.style.display === "none") {
             substituteList.style.display = "block";
+            substituteButton.textContent = "▼ Substitutes";
         } else {
             substituteList.style.display = "none";
+            substituteButton.textContent = "▶ Substitutes";
         }
 
     });
