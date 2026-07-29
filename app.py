@@ -1,7 +1,7 @@
 #Starts flask
 from flask import Flask, render_template, request, redirect
 from config import Config
-from models import db, Recipient
+from models import db, Recipient, Message, MessageRecipient
 
 app = Flask(__name__)
 
@@ -69,6 +69,7 @@ def edit_recipient(id):
         "edit_recipient.html",
         recipient=recipient
     )
+
 @app.route("/send", methods=["POST"])
 def send():
 
@@ -86,7 +87,34 @@ def send():
         print("No message entered.")
         return redirect('/')
 
-    return redirect("/")
+    new_message = Message(
+        body=message
+    )
+    db.session.add(new_message)
+    db.session.commit()
+
+    recipients = Recipient.query.filter(
+        Recipient.id.in_(recipient_ids)).all()
+    for recipient in recipients:
+        message_recipient = MessageRecipient(
+            message_id=new_message.id,
+            recipient_id=recipient.id,
+        )
+        db.session.add(message_recipient)
+
+    db.session.commit()
+
+    return redirect('/')
+
+@app.route("/history")
+def history():
+    messages = Message.query.order_by(
+        Message.created_at.desc()
+    ).all()
+    return render_template(
+        'history.html',
+        messages=messages
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message History</title>
+</head>
+<body>
+
+<h1>Message History</h1>
+<a href="/">
+    <button>Back</button>
+</a>
+<hr>
+{% for message in messages %}
+    <h3>{{ message.created_at.strftime("%B %d, %Y   %I:%M %p") }}</h3>
+    <p>{{ message.body }}</p>
+    <hr>
+{% else %}
+    <p>No messages have been sent.</p>
+{% endfor %}
+</body>
+</html>

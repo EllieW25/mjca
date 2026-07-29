@@ -8,10 +8,14 @@
 <h1> Welcome to the MJCA notification station!</h1>
 
 <a href="/add">
-    <button>Add Recipient
+    <button>Add Employee
     </button>
-
 </a>
+
+<a href="/history">
+    <button>Message History</button>
+</a>
+
 <br><br>
 <button type="button" id="teacher-toggle">
      ▶ Teachers
@@ -29,9 +33,9 @@
             <th>Status</th>
             <th>Edit</th>
         </tr>
-        <tr>
             {% if teachers %}
                 {% for teacher in teachers %}
+        <tr>
             <td>
                 <input
                     type="checkbox"
@@ -51,9 +55,7 @@
              </td>
             <td>
                 <a href="/edit/{{ teacher.id }}">
-                    <button>
-                        Edit
-                    </button>
+                    <button type="button">Edit</button>
 
                 </a>
             </td>
@@ -83,9 +85,9 @@
           <th>Status</th>
           <th>Edit</th>
       </tr>
-      <tr>
           {% if substitutes %}
                 {% for substitute in substitutes %}
+      <tr>
             <td>
                 <input
                     type="checkbox"
@@ -105,7 +107,7 @@
           </td>
           <td>
                 <a href="/edit/{{ substitute.id }}">
-                    <button>
+                    <button type="button">
                         Edit
                     </button>
                 </a>

@@ -1,6 +1,7 @@
 #Defines database tables
 from flask_sqlalchemy import SQLAlchemy #creating a sqlalchemy object
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from services.phone import normalize_phone, validate_phone
 
 db = SQLAlchemy()
@@ -61,7 +62,7 @@ class Message(db.Model):  # stores all created messages
     )
     created_at = db.Column(
         db.DateTime,
-        default=datetime.utcnow
+        default=lambda: datetime.now(ZoneInfo("America/Chicago")),
     )
     archived = db.Column(
         db.Boolean,
@@ -120,7 +121,7 @@ class Reply(db.Model):
     )
     received_at = db.Column(
         db.DateTime,
-        default=datetime.utcnow
+        default=lambda: datetime.now(ZoneInfo("America/Chicago"))
     )
     archived = db.Column(
         db.Boolean,
