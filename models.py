@@ -120,9 +120,9 @@ class Reply(db.Model):
         db.ForeignKey('message.id'),
         nullable=False
     )
-    message_recipient_id = db.Column(
+    recipient_id = db.Column(
         db.Integer,
-        db.ForeignKey('message_recipient.id'),
+        db.ForeignKey('recipient.id'),
         nullable=False
     )
     body = db.Column(

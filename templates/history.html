@@ -12,11 +12,13 @@
 </a>
 <hr>
 {% for message in messages %}
-    <h3>{{ message.created_at.strftime("%B %d, %Y   %I:%M %p") }}</h3>
+    <h2>{{ message.created_at.strftime("%B %d, %Y   %I:%M %p") }}</h2>
     <p>{{ message.body }}</p>
+
 <button type="button" class="details-button">
     ▶ Details
 </button>
+
 <div class="message-details" style="display: none;">
     <h3>Recipients:</h3>
     <ul>
@@ -26,12 +28,30 @@
         </li>
     {% endfor %}
     </ul>
-</div>
-    <hr>
-{% else %}
-    <p>No messages have been sent.</p>
-{% endfor %}
+    <h3>Replies:</h3>
 
+    {% if message.replies %}
+    <ul>
+        {% for reply in message.replies %}
+        <li>
+            <strong>
+                {{ reply.recipient.name }}</strong>
+            -
+            {{ reply.created_at.strftime("%I:%M %p") }}
+
+            <br>
+            {{ reply.body }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p> No replies yet.</p>
+
+    {% endif %}
+
+</div>
+   <hr>
+{% endfor %}
 <script>
 
 const detailButtons = document.querySelectorAll(".details-button");

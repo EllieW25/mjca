@@ -137,5 +137,34 @@ def manage():
         active_recipients=active_recipients
         ,inactive_recipients=inactive_recipients
     )
+@app.route("/sms-reply", methods=["POST"])
+def sms_reply():
+
+    print("==== Reply Recieved ====")
+
+    phone = request.form['From']
+    body = request.form['Body']
+
+    print(phone)
+    print(body)
+
+    recipient = Recipient.query.filter_by(
+        phone=phone).first()
+    if not recipient:
+        return "Unknown sender", 200
+    message_recipient = MessageRecipient.query.filter_by(
+        recipient_id=recipient.id
+    ).order_by(
+        MessageRecipient.id.desc()
+    ).first()
+    reply = Reply(
+        message_id=message_recipient.message_id,
+        recipient_id=recipient.id,
+        body=body
+    )
+    db.session.add(reply)
+    db.session.commit()
+    return "OK", 200
+
 if __name__ == '__main__':
     app.run(debug=True)
