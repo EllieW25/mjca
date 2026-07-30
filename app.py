@@ -146,6 +146,9 @@ def sms_reply():
     body = request.form['Body']
 
     print("Phone:",phone)
+    print("all recipients:")
+    for r in Recipient.query.all():
+        print(f"{r.name} -> {r.phone}")
     print("body:",body)
 
     recipient = Recipient.query.filter_by(
