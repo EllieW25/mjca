@@ -117,13 +117,16 @@ def send():
 
 @app.route("/history")
 def history():
-    messages = Message.query.order_by(
+    messages = Message.query.filter_by(
+        archived=False
+    ).order_by(
         Message.created_at.desc()
     ).all()
     return render_template(
-        'history.html',
+        "history.html",
         messages=messages
     )
+
 @app.route("/manage")
 def manage():
     active_recipients = Recipient.query.filter_by(
@@ -176,5 +179,28 @@ def sms_reply():
     db.session.commit()
     return "OK", 200
 
+@app.route("/archive-message/<int:message_id>", methods=["POST"])
+def archive_message(message_id):
+    message = Message.query.get_or_404(message_id)
+    message.archived = True
+    db.session.commit()
+    return redirect('/history')
+@app.route("/restore-message/<int:message_id>", methods=["POST"])
+def restore_message(message_id):
+    message = Message.query.get_or_404(message_id)
+    message.archived = False
+    db.session.commit()
+    return redirect('/archive')
+@app.route("/archive")
+def archive():
+    messages = Message.query.filter_by(
+        archived=True
+    ).order_by(
+        Message.created_at.desc()
+    ).all()
+    return render_template(
+        "archive.html",
+        messages=messages
+    )
 if __name__ == '__main__':
     app.run(debug=True)

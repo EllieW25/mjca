@@ -16,7 +16,7 @@
 </div>
     <nav>
         <a href="/">Home</a>
-        <a href="/history">Message History</a>
+        <a href="/archive">Message Archive</a>
         <a href="/manage">Manage Recipients</a>
         <a href="/add">Add Recipient</a>
     </nav>
@@ -25,6 +25,7 @@
 {% for message in messages %}
     <h2>{{ message.created_at.strftime("%B %d, %Y   %I:%M %p") }}</h2>
     <p>{{ message.body }}</p>
+
 
 <button type="button" class="details-button">
     ▶ Details
@@ -61,6 +62,11 @@
     {% endif %}
 
 </div>
+<form action="/archive-message/{{ message.id }}" method="POST">
+    <button type="submit">
+        Archive
+    </button>
+</form>
    <hr>
 {% endfor %}
 <script>

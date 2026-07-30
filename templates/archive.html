@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Archive</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+ <header class="site-header">
+
+<div class="brand">
+    <img src="{{ url_for('static',filename='images/MJCA_LOGO_TRANSPARENT.png') }}" alt="MJCA Logo">
+    <h1> Welcome to the MJCA notification station!</h1>
+
+</div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/history">Message History</a>
+        <a href="/manage">Manage Recipients</a>
+        <a href="/add">Add Recipient</a>
+    </nav>
+</header>
+
+<h1>Archived Messages</h1>
+{% for message in messages %}
+
+    <h2>
+        {{ message.created_at.strftime("%B %d, %Y %I:%M %p") }}
+    </h2>
+    <p>
+        {{ message.body }}
+    </p>
+
+    <form action="/restore-message/{{ message.id }}" method="POST">
+        <button type="submit">
+            Restore
+        </button>
+    </form>
+    <hr>
+{% else %}
+    <p>No archived messages.</p>
+{% endfor %}
+
+</body>
+</html>
