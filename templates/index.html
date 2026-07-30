@@ -22,135 +22,144 @@
 </header>
 
 <br><br>
-<button type="button" id="teacher-toggle">
-     ▶ Teachers
-</button>
-<div id="teacher-list" style="display: none;">
+<main>
+    <form method="POST" action="/send" class="dashboard">
+    <section class="left-panel">
+        <div class="card">
+            <button type="button" id="teacher-toggle">
+                ▶ Teachers
+            </button>
+            <div id="teacher-list" style="display: none;">
 
-<form method="POST" action="/send">
-<table>
+                <table>
 
 
-        <tr>
-            <th>Select</th>
-            <th>Name</th>
-            <th>Department</th>
-            <th>Status</th>
-            <th>Edit</th>
-        </tr>
-            {% if teachers %}
-                {% for teacher in teachers %}
-        <tr>
-            <td>
-                <input
-                    type="checkbox"
-                    class="recipient-checkbox"
-                    name="recipient_ids"
-                    value="{{ teacher.id }}"
-                >
-            </td>
-             <td>{{ teacher.name }}</td>
-             <td>{{ teacher.department }}</td>
-             <td>
-                 {% if teacher.active %}
-                    Active
-                 {% else %}
-                    Inactive
-                 {% endif %}
-             </td>
-            <td>
-                <a href="/edit/{{ teacher.id }}">
-                    <button type="button">Edit</button>
+                    <tr>
+                        <th>Select</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                    </tr>
+                        {% if teachers %}
+                         {% for teacher in teachers %}
+                    <tr>
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="recipient-checkbox"
+                                name="recipient_ids"
+                                value="{{ teacher.id }}"
+                            >
+                        </td>
+                        <td>{{ teacher.name }}</td>
+                        <td>{{ teacher.department }}</td>
+                        <td>
+                            {% if teacher.active %}
+                                Active
+                         {% else %}
+                                Inactive
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="/edit/{{ teacher.id }}">
+                                <button type="button">Edit</button>
 
-                </a>
-            </td>
-        </tr>
+                            </a>
+                        </td>
+                    </tr>
 
-    {% endfor %}
-{% else %}
-    <p>No teachers found.</p>
-{% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No teachers found.</p>
+                    {% endif %}
 
-</table>
-</div>
-
+                </table>
+            </div>
+        </div>
 <br><br>
+        <div class="card">
 
-<button type="button" id="substitute-toggle">
-     ▶ Substitutes
-</button>
-<div id="substitute-list" style="display: none;">
+            <button type="button" id="substitute-toggle">
+                ▶ Substitutes
+            </button>
+            <div id="substitute-list" style="display: none;">
 
-<table>
+            <table>
 
-      <tr>
-          <th>Select</th>
-          <th>Name</th>
-          <th>Department</th>
-          <th>Status</th>
-          <th>Edit</th>
-      </tr>
-          {% if substitutes %}
-                {% for substitute in substitutes %}
-      <tr>
-            <td>
-                <input
-                    type="checkbox"
-                    class="recipient-checkbox"
-                    name="recipient_ids"
-                    value="{{ substitute.id }}"
-                >
-            </td>
-          <td>{{ substitute.name }}</td>
-          <td>{{ substitute.department }}</td>
-          <td>
-              {% if substitute.active %}
-                Active
-              {% else %}
-                Inactive
-              {% endif %}
-          </td>
-          <td>
-                <a href="/edit/{{ substitute.id }}">
-                    <button type="button">
-                        Edit
-                    </button>
-                </a>
-          </td>
-      </tr>
+                <tr>
+                    <th>Select</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                </tr>
+                    {% if substitutes %}
+                            {% for substitute in substitutes %}
+                <tr>
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="recipient-checkbox"
+                                name="recipient_ids"
+                                value="{{ substitute.id }}"
+                            >
+                        </td>
+                    <td>{{ substitute.name }}</td>
+                    <td>{{ substitute.department }}</td>
+                    <td>
+                        {% if substitute.active %}
+                            Active
+                        {% else %}
+                            Inactive
+                        {% endif %}
+                     </td>
+                    <td>
+                            <a href="/edit/{{ substitute.id }}">
+                                <button type="button">
+                                 Edit
+                             </button>
+                            </a>
+                    </td>
+                </tr>
 
-    {% endfor %}
-{% else %}
-    <p>No substitutes found.</p>
-{% endif %}
-</table>
+             {% endfor %}
+            {% else %}
+                <p>No substitutes found.</p>
+            {% endif %}
+            </table>
 
-</div>
+            </div>
+        </div>
+    </section>
 
-<br><br>
+        <section class="right-panel">
+            <div class="card">
+                <h2>Compose Message</h2>
+                <div class="selected-box">
+                    <h3>Recipients Selected:</h3>
+                    <div id="selected-count">
+                        0
+                    </div>
+                </div>
+        <textarea
+            name="message"
+            rows="10"
+            cols="60"
+            placeholder="Type your message here..."
+            required>
+        </textarea>
 
-    <p>
-        Total Recipients Selected:
-        <span id="selected-count">0</span>
-    </p>
+        <br><br>
 
-    <h2>Message:</h2>
+        <button type="submit" class="send-button">
+            Send Message
+        </button>
+            </div>
+        </section>
+    </form>
+</main>
 
-    <textarea
-        name="message"
-        rows="6"
-        cols="60"
-        placeholder="Type your message here..."
-        required>
-    </textarea>
-
-    <br><br>
-
-    <button type="submit">
-        Send Message
-    </button>
-
-</form>
 <script>
     const checkboxes = document.querySelectorAll(".recipient-checkbox");
     const selectedCount = document.getElementById("selected-count");
