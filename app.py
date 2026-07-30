@@ -152,7 +152,7 @@ def sms_reply():
     print("body:",body)
 
     recipient = Recipient.query.filter_by(
-        Recipient._phone == phone).first()
+        _phone=phone).first()
     print("recipient:",recipient)
 
     print(repr(phone))
