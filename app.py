@@ -1,7 +1,7 @@
 #Starts flask
 from flask import Flask, render_template, request, redirect
 from config import Config
-from models import db, Recipient, Message, MessageRecipient, Reply
+from models import *
 from sms import send_sms
 
 app = Flask(__name__)
@@ -152,8 +152,12 @@ def sms_reply():
     print("body:",body)
 
     recipient = Recipient.query.filter_by(
-        phone=phone).first()
+        Recipient._phone == phone).first()
     print("recipient:",recipient)
+
+    print(repr(phone))
+    for r in Recipient.query.all():
+        print(repr(r.phone))
 
     if not recipient:
         print("Recipient not found.")
