@@ -1,0 +1,63 @@
+/* MJCA color palate */
+
+:root {
+    --mjca-gold: #fbdb00;
+    --mjca-blue: #18468d;
+    --mjca-white: #fafafa;
+    --mjca-gray: #a8a8a8;
+    --mjca-black #000000;
+}
+/* Overall page styling */
+
+body {
+    background-color: var(--mjca-white);
+    color: var(--mjca-black);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+/* Header */
+.site-header {
+    background-color: var(--mjca-blue);
+    color: var(--mjca-white);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 5px solid var(--mjca-gold);
+    }
+
+    .site-header h1 {
+        margin: 0;
+    }
+
+/* Navigation */
+
+.site-header nav {
+    margin-top: 15px;
+}
+
+.site-header a {
+    color: var(--mjca-white);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+.site-header a:hover {
+    color: var(--mjca-gold);
+}
+
+/* Logo and Title */
+
+.brand {
+    display: flex;
+    align-items; center;
+    justify-content: center;
+    gap: 20px;
+}
+.brand img {
+    height: 80px;
+    width: auto;
+}
+
+.brand h1 {
+    margin: 0;
+}

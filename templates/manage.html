@@ -3,12 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>All Employees</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
-<a href="/">
-    <button>Back</button>
-</a>
-<h1>Active Recipients</h1>
+
+<header class="site-header">
+
+<div class="brand">
+    <img src="{{ url_for('static',filename='images/MJCA_LOGO_TRANSPARENT.png') }}" alt="MJCA Logo">
+    <h1> Edit recipient</h1>
+</div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/history">Message History</a>
+        <a href="/manage">Manage Recipients</a>
+        <a href="/add">Add Recipient</a>
+    </nav>
+</header>
 <p>Active count: {{ active_recipients|length }}</p>
 <table>
 <tr>

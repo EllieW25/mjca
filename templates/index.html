@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>MJCA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
-<h1> Welcome to the MJCA notification station!</h1>
+<header class="site-header">
 
-<a href="/add">
-    <button>Add Employee
-    </button>
-</a>
-
-<a href="/history">
-    <button>Message History</button>
-</a>
-
-<a href="/manage">
-    <button type="button">Manage Employees</button>
-</a>
+<div class="brand">
+    <img src="{{ url_for('static',filename='images/MJCA_LOGO_TRANSPARENT.png') }}" alt="MJCA Logo">
+    <h1> Welcome to the MJCA notification station!</h1>
+</div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/history">Message History</a>
+        <a href="/manage">Manage Recipients</a>
+        <a href="/add">Add Recipient</a>
+    </nav>
+</header>
 
 <br><br>
 <button type="button" id="teacher-toggle">

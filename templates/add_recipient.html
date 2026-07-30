@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Recipient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<h1>Add Recipient</h1>
+<header class="site-header">
+
+<div class="brand">
+    <img src="{{ url_for('static',filename='images/MJCA_LOGO_TRANSPARENT.png') }}" alt="MJCA Logo">
+    <h1> Add a Recipient</h1>
+</div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/history">Message History</a>
+        <a href="/manage">Manage Recipients</a>
+        <a href="/add">Add Recipient</a>
+    </nav>
+</header>
+
 <form method="POST">
     <label>Name (first and last):</label>
     <input type="text" name="name" required>
