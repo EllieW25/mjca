@@ -111,3 +111,42 @@ body {
     transform:translateY(-2px);
     box-shadow:0 6px 15px rgba(0,0,0,.18);
 }
+
+#message-button{
+    width: 50%;
+    background: var(--mjca-blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-card{
+    width:400px;
+    margin:100px auto;
+    background:white;
+    border-radius:15px;
+    padding:40px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    text-align:center;
+}
+.login-card input{
+    width:100%
+    padding:12px;
+    margin:12px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+    box-sizing:border-box;
+}
+.login-card button{
+    width:50%;
+    background:var(--mjca-blue);
+    color:white;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+.login-card button:hover{
+    background:#2257aa;
+}

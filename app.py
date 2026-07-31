@@ -1,5 +1,7 @@
 #Starts flask
-from flask import Flask, render_template, request, redirect
+import os
+
+from flask import Flask, render_template, request, redirect, session, url_for
 from config import Config
 from models import *
 from sms import send_sms
@@ -13,10 +15,14 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+    USERNAME = os.getenv("MJCA_USERNAME")
+    PASSWORD = os.getenv("MJCA_PASSWORD")
 
 @app.route('/')
 def home():
 
+    if not session.get('logged_in'):
+        return redirect("/login")
     teachers = Recipient.query.filter_by(
         recipient_type='Teacher',
         active=True
@@ -34,6 +40,8 @@ def home():
     )
 @app.route('/add', methods=['GET', 'POST'])
 def add_recipient():
+    if not session.get('logged_in'):
+        return redirect("/login")
     if request.method == 'POST':
         recipient = Recipient(
             name=request.form['name'],
@@ -49,7 +57,8 @@ def add_recipient():
 
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit_recipient(id):
-
+    if not session.get('logged_in'):
+        return redirect("/login")
     recipient = Recipient.query.get_or_404(id)
 
     if request.method == 'POST':
@@ -75,7 +84,8 @@ def edit_recipient(id):
 
 @app.route("/send", methods=["POST"])
 def send():
-
+    if not session.get('logged_in'):
+        return redirect("/login")
     recipient_ids = request.form.getlist('recipient_ids')
     message = request.form['message']
 
@@ -117,6 +127,8 @@ def send():
 
 @app.route("/history")
 def history():
+    if not session.get('logged_in'):
+        return redirect("/login")
     messages = Message.query.filter_by(
         archived=False
     ).order_by(
@@ -129,6 +141,8 @@ def history():
 
 @app.route("/manage")
 def manage():
+    if not session.get('logged_in'):
+        return redirect("/login")
     active_recipients = Recipient.query.filter_by(
         active=True
     ).all()
@@ -181,18 +195,24 @@ def sms_reply():
 
 @app.route("/archive-message/<int:message_id>", methods=["POST"])
 def archive_message(message_id):
+    if not session.get('logged_in'):
+        return redirect("/login")
     message = Message.query.get_or_404(message_id)
     message.archived = True
     db.session.commit()
     return redirect('/history')
 @app.route("/restore-message/<int:message_id>", methods=["POST"])
 def restore_message(message_id):
+    if not session.get('logged_in'):
+        return redirect("/login")
     message = Message.query.get_or_404(message_id)
     message.archived = False
     db.session.commit()
     return redirect('/archive')
 @app.route("/archive")
 def archive():
+    if not session.get('logged_in'):
+        return redirect("/login")
     messages = Message.query.filter_by(
         archived=True
     ).order_by(
@@ -202,5 +222,24 @@ def archive():
         "archive.html",
         messages=messages
     )
+@app.route("/login", methods=["GET","POST"])
+def login():
+
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+
+        if username == USERNAME and password == PASSWORD:
+            session['logged_in'] = True
+            return redirect('/')
+        return render_template(
+            "login.html",
+            error="Invalid username or password."
+        )
+    return render_template("login.html")
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect('/login')
 if __name__ == '__main__':
     app.run(debug=True)
